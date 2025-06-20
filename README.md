@@ -1,6 +1,14 @@
-[![FINOS - Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://finosfoundation.atlassian.net/wiki/display/FINOS/Incubating)
+<div align="center">
+  <a href="https://github.com/finos/opengris">
+    <img src="https://github.com/finos/branding/blob/master/project-logos/active-project-logos/OpenGRIS/Horizontal/2025_OpenGRIS_Horizontal.svg" alt="OpenGRIS" width="180" height="80">
+  </a>
 
-# OpenGRIS
+  <p align="center">
+    <a href="https://community.finos.org/docs/governance/Software-Projects/stages/incubating">
+      <img src="https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg">
+    </a>
+  </p>  
+</div>
 
 Short blurb about what your project does.
 
