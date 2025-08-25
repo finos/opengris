@@ -1,0 +1,86 @@
+swagger: "2.0"
+info:
+  title: OpenGRIS Adapter Webhook OpenAPI Schema
+  version: "1.0.0"
+paths:
+  /:
+    post:
+      summary: Webhook endpoint for OpenGRIS Adapter
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              action:
+                description: Action to perform. Valid values are 'start_worker' and 'shutdown_worker'.
+                type: string
+                enum:
+                  - start_worker
+                  - shutdown_worker
+              worker_id:
+                description: |
+                  Unique identifier for the worker instance. **Note**: This ID might be ignored when performing the 
+                  'start_worker` action, as the server may generate its own ID instead.
+                type: string
+              metadata:
+                description: |
+                  Optional metadata provided by the scheduler's scaling policy. May include details like instance type,
+                  region, image tags, etc.
+                type: object
+              auth_token:
+                description: |
+                  Optional authentication token for securing the webhook from unauthorized requests. Must match the 
+                  server's expected token if provided.
+                type: string
+            required:
+              - action
+              - worker_id
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              status:
+                description: Status of the requested action.
+                type: string
+              worker_id:
+                description: |
+                  Unique identifier for the worker instance. **Note**: This ID may not match the one provided in the
+                  request if the server generates its own ID when starting a new worker.
+                type: string
+              metadata:
+                description: |
+                  Optional metadata about the worker instance. May include details like instance type,
+                  region, image tags, etc.
+                type: object
+                properties: { }
+            required:
+              - status
+              - worker_id
+        400:
+          description: Bad Request, e.g., missing required fields or invalid action
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Unauthorized, e.g., invalid or missing auth_token
+          schema:
+            $ref: '#/definitions/Error'
+        429:
+          description: Too Many Requests, e.g. rate limiting, no available resources
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal Server Error, e.g., server-side or infrastructure related issues
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: object
+    properties:
+      error:
+        type: string
+    required:
+      - error
