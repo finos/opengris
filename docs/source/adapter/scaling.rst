@@ -17,6 +17,19 @@ Scaling Controller Interface
 
 .. code-block:: python
 
+    import abc
+
+    from scaler.protocol.python.message import (
+        StateBalanceAdvice,
+        StateClient,
+        StateGraphTask,
+        StateObject,
+        StateScheduler,
+        StateTask,
+        StateWorker
+    )
+    from scaler.utility.mixins import Reporter
+
     class ScalingController(Reporter, abc.ABC):
         async def on_state_client(self, state_client: StateClient):
             pass
