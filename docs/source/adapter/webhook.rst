@@ -11,22 +11,21 @@ Webhook Specification
 Webhook Request Examples
 ------------------------
 
-Example: start_worker (minimal)
+Example: start_worker_group (minimal)
 
 .. code-block:: json
 
     {
-      "action": "start_worker",
-      "worker_id": ""
+      "action": "start_worker_group"
     }
 
-Example: start_worker (with suggested worker_id and auth)
+Example: start_worker_group (with suggested worker_group_id and auth)
 
 .. code-block:: json
 
     {
-      "action": "start_worker",
-      "worker_id": "worker-12345",
+      "action": "start_worker_group",
+      "worker_group_id": "worker-group-12345",
       "metadata": {
         "instance_type": "m8gd.16xlarge",
         "region": "us-east-1",
@@ -41,8 +40,8 @@ Example: shutdown_worker
 .. code-block:: json
 
     {
-      "action": "shutdown_worker",
-      "worker_id": "worker-12345"
+      "action": "shutdown_worker_group",
+      "worker_group_id": "worker-group-12345"
     }
 
 Webhook Reponse Examples
@@ -54,7 +53,8 @@ Success (200)
 
     {
       "status": "ok",
-      "worker_id": "worker-12345",
+      "worker_group_id": "worker-group-12345",
+      "worker_ids": ["worker-1", "worker-2", "worker-3"],
       "metadata": {
         "instance_type": "m8gd.16xlarge",
         "region": "us-east-1"

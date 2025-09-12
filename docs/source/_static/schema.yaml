@@ -14,15 +14,15 @@ paths:
             type: object
             properties:
               action:
-                description: Action to perform. Valid values are 'start_worker' and 'shutdown_worker'.
+                description: Action to perform. Valid values are 'start_worker_group' and 'shutdown_worker_group'.
                 type: string
                 enum:
-                  - start_worker
-                  - shutdown_worker
-              worker_id:
+                  - start_worker_group
+                  - shutdown_worker_group
+              worker_group_id:
                 description: |
-                  Unique identifier for the worker instance. **Note**: This ID might be ignored when performing the 
-                  'start_worker` action, as the server may generate its own ID instead.
+                  Unique identifier for the worker group. **Note**: This ID might be ignored when performing 
+                  the 'start_worker_group` action, as the server may generate its own ID instead.
                 type: string
               metadata:
                 description: |
@@ -36,7 +36,6 @@ paths:
                 type: string
             required:
               - action
-              - worker_id
       responses:
         200:
           description: Successful response
@@ -46,11 +45,17 @@ paths:
               status:
                 description: Status of the requested action.
                 type: string
-              worker_id:
+              worker_group_id:
                 description: |
-                  Unique identifier for the worker instance. **Note**: This ID may not match the one provided in the
-                  request if the server generates its own ID when starting a new worker.
+                  Unique identifier for the worker group. **Note**: This ID may not match the one provided in
+                  the request if the server generates its own ID when starting a new worker.
                 type: string
+              worker_ids:
+                description: |
+                  List of unique identifiers for the worker instances within the group.
+                type: array
+                items:
+                  type: string
               metadata:
                 description: |
                   Optional metadata about the worker instance. May include details like instance type,
@@ -59,7 +64,6 @@ paths:
                 properties: { }
             required:
               - status
-              - worker_id
         400:
           description: Bad Request, e.g., missing required fields or invalid action
           schema:

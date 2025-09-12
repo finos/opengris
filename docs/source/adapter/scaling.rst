@@ -19,57 +19,27 @@ Scaling Controller Interface
 
     import abc
 
-    from scaler.protocol.python.message import (
-        StateBalanceAdvice,
-        StateClient,
-        StateGraphTask,
-        StateObject,
-        StateScheduler,
-        StateTask,
-        StateWorker
-    )
+    from scaler.protocol.python.message import InformationSnapshot
     from scaler.utility.mixins import Reporter
 
     class ScalingController(Reporter, abc.ABC):
-        async def on_state_client(self, state_client: StateClient):
+        def get_status(self):
             pass
     
-        async def on_state_object(self, state_object: StateObject):
+        async def on_snapshot(self, information_snapshot: InformationSnapshot):
             pass
-    
-        async def on_state_balance_advice(self, state_balance_advice: StateBalanceAdvice):
-            pass
-    
-        async def on_state_scheduler(self, state_scheduler: StateScheduler):
-            pass
-    
-        async def on_state_worker(self, state_worker: StateWorker):
-            pass
-    
-        async def on_state_task(self, state_task: StateTask):
-            pass
-    
-        async def on_state_graph_task(self, state_graph_task: StateGraphTask):
-            pass
-
-In most cases, the scaling controller will only need to implement the ``on_state_task`` and ``on_state_worker``
-handlers. The other handlers are provided for completeness and future use cases.
 
 Implementing a Scaling Controller
 ---------------------------------
 
 Some pointers to implement a robust Scaling Controller:
 
-- Receive scheduler state updates via the provided on_state_* handlers and keep a small internal model of:
-    - current running workers and their states
-    - pending tasks and backlog size
-    - recent failures or rate-limit signals from the adapter
 - Decide when to scale up:
-    - if backlog > threshold OR average task wait time > latency_target, issue a start_worker webhook
+    - if backlog > threshold OR average task wait time > latency_target, issue a start_worker_group webhook
     - include suggested instance type, region, and any labels in metadata
 - Decide when to scale down:
-    - if backlog is small or task wait time is low, issue a shutdown_worker webhook for specific worker_id
-- Validate webhook responses: only treat action as completed when adapter returns 200 and the returned worker_id is recorded
+    - if backlog is small or task wait time is low, issue a shutdown_worker_group webhook for specific worker_group_id
+- Validate webhook responses: only treat action as completed when adapter returns 200
 - Use exponential backoff for retries when receiving 429 or 5xx responses from the adapter
 - Idempotency: you may include a request identifier in metadata if your adapter supports it, or detect repeated requests
   and avoid duplicate actions.
