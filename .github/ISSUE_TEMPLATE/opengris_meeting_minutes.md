@@ -7,10 +7,12 @@ assignees: ''
 ---
 
 ### Meeting info
-- Join Zoom Meeting:
+Join Zoom meeting: https://zoom-lfx.platform.linuxfoundation.org/meeting/91949257192?password=f8a27a59-811a-47af-b9a5-1216d77d2692
+
+Register to the meeting series: https://zoom-lfx.platform.linuxfoundation.org/meeting/91949257192?password=f8a27a59-811a-47af-b9a5-1216d77d2692&invite=true
 
 # OpenGRIS Meeting
-[OpenGRIS overview, roadmap and background](https://{github}.com/finos/opengris/readme.md)
+[OpenGRIS overview, roadmap and background](https://github.com/finos/opengris/blob/main/README.md)
 
 ## Date
 YYYYMMDD - 10am ET / 3pm GMT
