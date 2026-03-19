@@ -1,0 +1,4 @@
+Scheduler Communication Protocol
+================================
+
+TODO
